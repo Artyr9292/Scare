@@ -7,7 +7,20 @@
 // перед prompt и это уже будет числом
 //стоит плюс перед prompt,плюс превращает строку в числовой тип данных
 //если нам приходит пустая строка,то мы ее превращаем в 0
-const numberOfFilms = prompt('Сколько фильмов вы уже посмотрели?', '');
+
+let numberOfFilms; //переменная обьявлена глобально
+
+function start() {
+    //мы будем ее менять в зависимости от того что ввел пользователь
+    numberOfFilms = +prompt('Сколько фильмов вы уже посмотрели?', '');
+    
+    while (numberOfFilms == '' || numberOfFilms == null || isNaN(numberOfFilms)) {
+        //если пользователь ввел неправильные данные он будет повторять вопрос
+        //наш цикл будет повторятся пока одно из этих условий будет правдивым
+        numberOfFilms = +prompt('Сколько фильмов вы уже посмотрели?', '');
+    }
+}
+start(); //вызываем функции чтобы они как то у нас отображались
 
 //Задание№2
 let personalMovieDB = { //это будет главный обьект куда мы будем помещать все данные
@@ -18,8 +31,10 @@ let personalMovieDB = { //это будет главный обьект куда
     privat: false
 };
 
-//Задание№3
-for (let i = 0; i < 2; i++) {
+
+function rememberMyFilms() {
+    //Задание№3
+  for (let i = 0; i < 2; i++) {
     const a = prompt('Один из последних просмотренных фильмов?', ''),
           b = prompt('На сколько оцените его?', '');
 
@@ -35,19 +50,61 @@ for (let i = 0; i < 2; i++) {
         i--; //мне хотелось бы вернуть цикл на одно повторение назад
     }
     
+  }
 }
+//для того чтобы эта функция заработала не забывайте ее вызывать
+//rememberMyFilms();
 
-if (personalMovieDB.count < 10) {
-    console.log("Просмотрено довольно мало фильмов");
-} else if (personalMovieDB.count >= 10 && personalMovieDB.count < 30) {
-    console.log("Вы классический зритель");
-} else if (personalMovieDB.count >= 30) {
-    console.log("Вы киноман");
-} else {
-    console.log("Произошла ошибка");
+// ******************************************** //
+//переписать цикл еще двумя способами
+/*
+//метод do while
+do {
+    personalMovieDB++;
+    console.log(personalMovieDB);
 }
+while(personalMovieDB < 50);
 
-console.log(personalMovieDB);
+//метод while
+while (personalMovieDB <= 50) {
+    personalMovieDB++;
+    console.log(personalMovieDB);
+}
+*/
+// ******************************************** //
+
+
+function detectPersonalLevel() {
+    if (personalMovieDB.count < 10) {
+        console.log("Просмотрено довольно мало фильмов");
+    } else if (personalMovieDB.count >= 10 && personalMovieDB.count < 30) {
+        console.log("Вы классический зритель");
+    } else if (personalMovieDB.count >= 30) {
+        console.log("Вы киноман");
+    } else {
+        console.log("Произошла ошибка");
+    }
+}
+//detectPersonalLevel();
+
+function showMyDB (hidden) {
+    if (!hidden) {
+        console.log(personalMovieDB);
+    }
+}
+//если вы сделали без аргумента ничего страшного,это тоже правильный потход
+showMyDB(personalMovieDB.privat);
+
+function writeYourGenres() {
+    //цикл будет начинатся с единицы,когда мы записываем в базу данных
+    //какие то вещи,когда мы работаем с пользователем так как он не программист,ему все равно что там 
+    //начинается все с нуля,ему необходимо вывести номер по порядку так как он привык (1,2,3 и прочее)
+    for (let i = 1; i <= 3; i++) {
+        //const genre = prompt(`Ваш любимый жанр под номером ${i}`);
+        personalMovieDB.genres[i - 1] = prompt(`Ваш любимый жанр под номером ${i}`);
+    }
+}
+writeYourGenres();
 
 /* Задание на урок:
 1) Автоматизировать вопросы пользователю про фильмы при помощи цикла
